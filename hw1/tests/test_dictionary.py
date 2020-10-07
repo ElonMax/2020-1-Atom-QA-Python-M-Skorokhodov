@@ -27,7 +27,8 @@ class TestDictMethods:
         Проверка метода clear
         """
         dict_num = {1: 'a', 2: 'b', 3: 'c'}
-        assert dict_num.clear() is None
+        dict_num.clear()
+        assert dict_num == {}
 
 
 def test_with_fixture_dict(give_salary):
