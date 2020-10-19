@@ -27,6 +27,5 @@ class SegmentPage(BasePage):
                 self.find(TEMPORARY_NAME, 10)
 
     def delete_segment(self):
-        self.create_segment(segment_name='delete')
         self.click(self.locators.DELETE_SEGMENT, 10)
         self.click(self.locators.CONFIRM_DELETE, 10)

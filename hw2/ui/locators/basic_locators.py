@@ -1,6 +1,9 @@
 from selenium.webdriver.common.by import By
 
 
+DELETE = 'delete'
+
+
 class MainPageLocators:
     GOTO_LOGIN_BUTTON = (By.CLASS_NAME, "responseHead-module-button-1BMAy4")
     EMAIL_FIELD = (By.XPATH, "//input[@name='email']")
@@ -32,6 +35,6 @@ class SegmentPageLocators:
     ANOTHER_ADD_SEGMENT_BUTTON = (By.XPATH, "//button[contains(@class, 'button_submit')]/div")
     ADDING_SEGMENT_ITEM = (By.XPATH, "//div[@class='adding-segments-item']")
     CONFIRM_SEGMENT_BUTTON = (By.XPATH, "//div[contains(@class, 'js-create-segment-button-wrap')]/button/div")
-    DELETE_SEGMENT = (By.XPATH, "//span[@class='icon-cross cells-module-removeCell-2tweYp']")
+    DELETE_SEGMENT = (By.XPATH, f'//div[@data-row-id=//a[@title="{DELETE}"]/../../@data-row-id]/span')
     CONFIRM_DELETE = (By.XPATH, "//button[@class='button button_confirm-remove button_general']/div")
     CREATE_SEGMENT_FORM = (By.XPATH, "//div[@class='input input_create-segment-form']/div/input")
