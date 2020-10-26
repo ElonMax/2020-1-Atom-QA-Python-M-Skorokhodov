@@ -1,0 +1,13 @@
+#!/bin/bash
+logsdir=$(pwd)/../../logs/*.log
+resdir=$(pwd)/../../results/file_bash.log
+
+if [ -f $logsdir ]; then
+ls $logsdir >> $resdir
+echo '--Number of request:' >> $resdir
+cat $logsdir | wc -l >> $resdir
+echo '' >> $resdir
+else
+echo 'No logs found for all_req'
+fi
+
