@@ -1,0 +1,7 @@
+[Connection: Close]
+[Host: 127.0.0.1:7777]
+/read
+
+[Connection: Close]
+[Host: 127.0.0.1:7777]
+/read/text
