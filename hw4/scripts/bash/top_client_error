@@ -1,0 +1,12 @@
+#!/bin/bash
+logsdir=$(pwd)/../../logs/*.log
+resdir=$(pwd)/../../results/file_bash.log
+
+if [ -f $logsdir ]; then
+ls $logsdir >> $resdir
+echo '--TOP client error:' >> $resdir
+cat $logsdir | awk '{print $7,$9, $1}' | grep -w 4[0-1][0-9] | sort | uniq -c | sort -nrk 1 | awk '{print $2, $3, $4, $1}' | head >> $resdir
+echo '' >> $resdir
+else
+echo 'No logs found for top_client_error'
+fi

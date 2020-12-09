@@ -1,0 +1,13 @@
+#!/bin/bash
+logsdir=$(pwd)/../../logs/*.log
+resdir=$(pwd)/../../results/file_bash.log
+
+if [ -f $logsdir ]; then
+ls $logsdir >> $resdir
+echo '--TOP request`s length:' >> $resdir
+cat $logsdir | awk '{print $7, $9}' | sort | uniq -c | awk '{print length($2) " " $0}' | sort -nr | awk '{print $3, $4, $2}' | head >> $resdir
+echo '' >> $resdir
+else
+echo 'No logs founf for top_length'
+fi
+
