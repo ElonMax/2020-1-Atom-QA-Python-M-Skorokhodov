@@ -1,0 +1,31 @@
+import pymysql
+
+
+class MysqlConnection:
+
+    def __init__(self, user, password, db_name):
+        self.user = user
+        self.password = password
+        self.db_name = db_name
+        self.host = '127.0.0.1'
+        self.port = 3306
+        self.charset = 'utf8'
+        self.connection = self.connect()
+
+    def get_connection(self, db_created=False):
+        return pymysql.connect(host=self.host, port=self.port, user=self.user, password=self.password,
+                               db=self.db_name if db_created else None, charset=self.charset,
+                               local_infile=True, autocommit=True)
+
+    def connect(self):
+        connection = self.get_connection()
+        connection.query(f'DROP DATABASE IF EXISTS {self.db_name}')
+        connection.query(f'CREATE DATABASE {self.db_name}')
+        connection.close()
+
+        return self.get_connection(db_created=True)
+
+    def execute_query(self, query):
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        return cursor.fetchall()
