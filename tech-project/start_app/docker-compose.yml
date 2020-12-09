@@ -1,0 +1,75 @@
+version: '2.1'
+
+networks:
+  default:
+    name:
+      test
+
+#  selenoid:
+#    external:
+#      name: selenoid
+
+services:
+
+  percona:
+    image: 'percona'
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: test
+    ports:
+    - '3306:3306'
+    volumes:
+      - './init:/docker-entrypoint-initdb.d'
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=pass --execute \"SHOW DATABASES;\""
+      timeout: 30s
+      retries: 3
+
+  vk_api_mock:
+    build: .
+    ports:
+    - '7777:7777'
+    volumes:
+    - '/home/elon/PycharmProjects/tech-project/start_app/code:/code'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://0.0.0.0:7777/']
+      timeout: 30s
+      retries: 3
+
+  myapp:
+    image: 'myapp'
+    volumes:
+    - '/home/elon/PycharmProjects/tech-project/start_app/conf:/tmp/conf'
+    ports:
+    - '7070:7070'
+    links:
+      - 'vk_api_mock:vk_api_mock'
+      - 'percona:percona'
+    command: /app/myapp --config=/tmp/conf
+    depends_on:
+      percona:
+        condition: service_healthy
+      vk_api_mock:
+        condition: service_healthy
+
+#  selenoid:
+#    networks:
+#      selenoid: null
+#    image: 'aerokube/selenoid'
+#    volumes:
+#    - /usr/bin/docker:/usr/bin/docker
+#    - /var/run/docker.sock:/var/run/docker.sock
+#    - /home/elon/.aerokube/selenoid:/etc/selenoid
+#    command: [ "-conf", "/etc/selenoid/browsers.json", "-container-network", "selenoid" ]
+#    ports:
+#    - 4444:4444
+#
+#  selenoid-ui:
+#    networks:
+#      selenoid: null
+#    image: 'aerokube/selenoid-ui'
+#    links:
+#      - 'selenoid:selenoid'
+#    ports:
+#      - 8080:8080
+#    command: -selenoid-uri http://selenoid:4444
