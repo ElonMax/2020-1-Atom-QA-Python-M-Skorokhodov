@@ -1,0 +1,7 @@
+[Connection: Close]
+[Host: 127.0.0.1:7777]
+/
+
+[Connection: Close]
+[Host: 127.0.0.1:7777]
+/info
