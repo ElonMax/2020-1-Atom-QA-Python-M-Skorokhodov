@@ -1,0 +1,6 @@
+pytest
+allure-pytest
+webdriver_manager
+selenium
+pytest-xdist
+sqlalchemy
